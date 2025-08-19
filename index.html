@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لعبة عرض الأزياء 3D</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div id="start-screen" class="screen">
+        <h1>لعبة عرض الأزياء 3D</h1>
+        <div class="player-input">
+            <label for="player-count">عدد اللاعبين:</label>
+            <input type="number" id="player-count" min="2" max="10" value="3">
+        </div>
+        <div class="player-input">
+            <label for="player-names">أسماء اللاعبين (مفصولة بفاصلة):</label>
+            <input type="text" id="player-names" placeholder="لاعب 1, لاعب 2, لاعب 3">
+        </div>
+        <div class="player-input">
+            <label for="topic-select">اختر موضوع اللعبة:</label>
+            <select id="topic-select" class="topic-selector">
+                <option value="random">عشوائي</option>
+                <option value="حفلة على الشاطئ">حفلة على الشاطئ</option>
+                <option value="حفل زفاف">حفل زفاف</option>
+                <option value="مناسبة رسمية">مناسبة رسمية</option>
+                <option value="رياضي">رياضي</option>
+                <option value="خريف 2024">خريف 2024</option>
+                <option value="شتاء دافئ">شتاء دافئ</option>
+                <option value="أمسية سهرة">أمسية سهرة</option>
+                <option value="حفلة تخرج">حفلة تخرج</option>
+            </select>
+        </div>
+        <button onclick="startGame()">ابدأ اللعبة</button>
+        <div id="load-saved" style="margin-top: 20px; display: none;">
+            <p>تم العثور على لعبة محفوظة مسبقاً</p>
+            <button onclick="loadSavedGame()">استعادة اللعبة المحفوظة</button>
+        </div>
+    </div>
+
+    <div id="customization-screen" class="screen">
+        <div class="player-indicator">اللاعب <span id="current-player-number">1</span>: <span id="current-player-name">اسم اللاعب</span></div>
+        <h2>الموضوع الحالي:</h2>
+        <div id="topic" class="topic">حفلة على الشاطئ</div>
+        <div id="timer" class="timer">05:00</div>
+        
+        <div class="avatar-container">
+            <div id="current-avatar-custom" class="avatar">
+                <div class="avatar-head"></div>
+                <div class="avatar-body"></div>
+            </div>
+            <div class="obstacle"></div>
+        </div>
+        
+        <div class="customization-panel">
+            <div>
+                <h3>لون الرأس:</h3>
+                <div>
+                    <div class="color-btn" style="background-color: #6a11cb;" onclick="changeHeadColor('#6a11cb')"></div>
+                    <div class="color-btn" style="background-color: #ff6b6b;" onclick="changeHeadColor('#ff6b6b')"></div>
+                    <div class="color-btn" style="background-color: #4ecdc4;" onclick="changeHeadColor('#4ecdc4')"></div>
+                    <div class="color-btn" style="background-color: #ffe66d;" onclick="changeHeadColor('#ffe66d')"></div>
+                </div>
+            </div>
+            <div>
+                <h3>لون الجسم:</h3>
+                <div>
+                    <div class="color-btn" style="background-color: #2575fc;" onclick="changeBodyColor('#2575fc')"></div>
+                    <div class="color-btn" style="background-color: #8e44ad;" onclick="changeBodyColor('#8e44ad')"></div>
+                    <div class="color-btn" style="background-color: #3498db;" onclick="changeBodyColor('#3498db')"></div>
+                    <div class="color-btn" style="background-color: #2ecc71;" onclick="changeBodyColor('#2ecc71')"></div>
+                </div>
+            </div>
+        </div>
+        
+        <p>قم بتعديل شخصيتك حسب الموضوع قبل انتهاء الوقت!</p>
+        <button onclick="finishPlayerCustomization()">إنهاء التعديل</button>
+        
+        <div class="door" id="door-left">الباب 1</div>
+        <div class="door" id="door-right">الباب 2</div>
+        <div class="door-notification" id="door-notification">تم فتح الباب!</div>
+        
+        <div class="mobile-controls">
+            <div class="mobile-controls-row">
+                <div class="mobile-btn" id="up-btn">↑</div>
+            </div>
+            <div class="mobile-controls-row">
+                <div class="mobile-btn" id="left-btn">←</div>
+                <div class="mobile-btn" id="down-btn">↓</div>
+                <div class="mobile-btn" id="right-btn">→</div>
+            </div>
+        </div>
+        
+        <div class="proximity-area" id="proximity-area"></div>
+        <div class="player-avatar" id="player-avatar" style="top: 50%; left: 50%;">
+            <div class="player-tag">اللاعب</div>
+        </div>
+    </div>
+
+    <div id="showcase-screen" class="screen">
+        <h2>عرض الشخصيات</h2>
+        <div id="showcase-container" class="showcase">
+        </div>
+        <button onclick="startRating()">ابدأ التقييم</button>
+    </div>
+
+    <div id="rating-screen" class="screen">
+        <div class="player-indicator">اللاعب <span id="rater-number">1</span>: <span id="rater-name">اسم المقيم</span> يقيم</div>
+        <h2>قيم الشخصية:</h2>
+        <div id="rated-player">الشخصية <span id="rated-number">1</span>: <span id="rated-name">اسم اللاعب</span></div>
+        <div id="current-avatar" class="avatar-container">
+            <div class="avatar">
+                <div class="avatar-head"></div>
+                <div class="avatar-body"></div>
+            </div>
+        </div>
+        <p>أعط نقاطًا من 1 إلى <span id="max-points">3</span> (بدون تكرار)</p>
+        <div id="rating-buttons" class="rating-buttons">
+        </div>
+    </div>
+
+    <div id="results-screen" class="screen">
+        <h2>النتائج النهائية</h2>
+        <div id="winner">اللاعب 1 فاز بـ 25 نقطة!</div>
+        <div id="results-list" class="results-list">
+        </div>
+        <button onclick="newRound()">جولة جديدة</button>
+        <button onclick="saveGame()" style="background-color: #4ecdc4;">حفظ اللعبة</button>
+    </div>
+
+    <div class="sound-toggle" id="sound-toggle">🔊</div>
+    <div class="save-notification" id="save-notification">تم حفظ اللعبة!</div>
+    
+<script src="static/js/script.js"></script>

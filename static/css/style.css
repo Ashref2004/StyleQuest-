@@ -1,0 +1,420 @@
+* {
+    box-sizing: border-box;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+}
+.screen {
+    display: none;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#start-screen {
+    display: flex;
+}
+button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s;
+}
+button:hover, button:active {
+    background-color: #ff8e8e;
+    transform: scale(1.05);
+}
+.mobile-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.mobile-controls-row {
+    display: flex;
+    justify-content: center;
+}
+.mobile-btn {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    user-select: none;
+}
+.topic {
+    font-size: 28px;
+    margin: 20px;
+    font-weight: bold;
+    color: #ffe66d;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+.timer {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.timer-warning {
+    color: #ff6b6b;
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+.avatar-container {
+    width: 200px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.avatar {
+    width: 100px;
+    height: 200px;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.3s;
+}
+.avatar-head {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 20px;
+    left: 30px;
+}
+.avatar-body {
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    border-radius: 10px;
+    top: 70px;
+    left: 10px;
+}
+.obstacle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.7) 70%);
+    pointer-events: none;
+}
+.customization-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+    max-width: 100%;
+}
+.color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 5px;
+    border: 2px solid white;
+    cursor: pointer;
+}
+.style-btn {
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    cursor: pointer;
+    color: #fff;
+}
+.rating-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+.rating-buttons button {
+    background-color: #4ecdc4;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+}
+.rating-buttons button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+.showcase {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+.avatar-showcase {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.player-name {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #fff;
+}
+@keyframes dance {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+.dance-animation {
+    animation: dance 1s infinite;
+}
+.jump-animation {
+    animation: jump 1s infinite;
+}
+.door {
+    position: absolute;
+    width: 80px;
+    height: 160px;
+    background: linear-gradient(45deg, #8e44ad, #3498db);
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    transition: all 0.5s;
+    cursor: pointer;
+    z-index: 10;
+}
+#door-left {
+    left: 5px;
+}
+#door-right {
+    right: 5px;
+}
+.door-open {
+    transform: translateY(-50%) rotate(90deg);
+    opacity: 0.5;
+}
+.player-input {
+    margin: 10px;
+}
+input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: none;
+    text-align: center;
+    width: 80%;
+    max-width: 200px;
+    color: #333;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffe66d;
+}
+.player-indicator {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #ffe66d;
+}
+.results-list {
+    text-align: right;
+    margin: 20px;
+    font-size: 18px;
+    width: 100%;
+    max-width: 500px;
+}
+.results-list div {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+}
+.proximity-area {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(255, 255, 0, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.player-avatar {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff6b6b;
+    border-radius: 50%;
+    transition: all 0.5s;
+    z-index: 5;
+}
+.door-notification {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 20;
+    color: #fff;
+}
+.door-notification.show {
+    opacity: 1;
+}
+.player-tag {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.floating-point {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffe66d;
+    pointer-events: none;
+    z-index: 100;
+    animation: floatUp 1.5s forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100px); opacity: 0; }
+}
+
+.save-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #4ecdc4;
+    padding: 10px 20px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 100;
+}
+
+.save-notification.show {
+    opacity: 1;
+}
+
+.sound-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.topic-selector {
+    margin: 15px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .topic {
+        font-size: 22px;
+    }
+    .timer {
+        font-size: 36px;
+    }
+    .avatar-container {
+        width: 150px;
+        height: 250px;
+    }
+    .avatar {
+        width: 80px;
+        height: 160px;
+    }
+    .avatar-head {
+        width: 30px;
+        height: 30px;
+        left: 25px;
+    }
+    .avatar-body {
+        width: 60px;
+        height: 80px;
+        left: 10px;
+    }
+    .door {
+        width: 60px;
+        height: 120px;
+        font-size: 12px;
+    }
+    button {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+}
